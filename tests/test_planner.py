@@ -105,7 +105,12 @@ class PlannerTests(unittest.TestCase):
         names = [op.destination.name for op in plan.operations]
         self.assertEqual(names, ["ferias-001.jpg", "ferias-002.jpg"])
         self.assertTrue(all(op.action is Action.RENAME for op in plan.operations))
-        self.assertTrue(all(op.destination.parent == self.root for op in plan.operations))
+        self.assertTrue(
+            all(
+                op.destination.parent.resolve() == self.root.resolve()
+                for op in plan.operations
+            )
+        )
 
     def test_filtro_por_padrao(self):
         make_file(self.root, "a.pdf")
