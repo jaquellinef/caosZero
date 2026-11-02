@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Hook local executado antes de cada commit.
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+PYTHON="${CAOSZERO_PYTHON:-python3}"
+if ! command -v "$PYTHON" >/dev/null 2>&1; then
+    PYTHON="python"
+fi
+
+echo "[pre-commit] compilando módulos..."
+"$PYTHON" -m compileall -q "$ROOT_DIR/src" "$ROOT_DIR/tests"
+echo "[pre-commit] ok."

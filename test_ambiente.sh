@@ -1,18 +1,7 @@
-#!/bin/bash
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PASTA_TESTE="$SCRIPT_DIR/sandbox_teste"
-
-mkdir -p "$PASTA_TESTE"
-for nome in \
-  "relatorio.pdf" \
-  "foto_ferias.jpg" \
-  "video_aula.mp4" \
-  "backup.zip" \
-  "notas.txt" \
-  "dados.csv"
-do
-  : > "$PASTA_TESTE/$nome"
-done
-
-echo "Ambiente de teste criado na pasta '$PASTA_TESTE' com 6 arquivos variados."
+#!/usr/bin/env bash
+#
+# Compatibilidade: o ambiente de teste agora fica em scripts/test_ambiente.sh.
+#
+set -euo pipefail
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$ROOT_DIR/scripts/test_ambiente.sh" "$@"

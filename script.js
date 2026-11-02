@@ -1,176 +1,157 @@
-const body = document.body;
-const toggleButton = document.getElementById('theme-toggle');
-const statFiles = document.getElementById('stat-files');
-const statTime = document.getElementById('stat-time');
-const statCategories = document.getElementById('stat-categories');
-const folderList = document.querySelector('.folder-list');
-const addFolderButton = document.getElementById('add-folder-button');
+/* CaosZero 2.0 — interações da página */
+(function () {
+  "use strict";
 
-const projectCategories = {
-  Documentos: ['.pdf', '.docx', '.txt', '.xlsx', '.pptx', '.csv'],
-  Imagens: ['.jpg', '.jpeg', '.png', '.gif', '.svg'],
-  Videos: ['.mp4', '.mkv', '.avi', '.mov'],
-  Compactados: ['.zip', '.tar.gz', '.rar', '.7z'],
-  Executaveis_Scripts: ['.sh', '.py', '.bin', '.deb'],
-};
+  const root = document.documentElement;
+  const themeButton = document.querySelector(".theme-toggle");
+  const navToggle = document.querySelector(".nav-toggle");
+  const nav = document.getElementById("menu-principal");
+  const topbar = document.querySelector(".topbar");
 
-const formatSeconds = (value) => {
-  const safeValue = Math.max(1, Math.round(value));
-  return `${String(safeValue).padStart(2, '0')}s`;
-};
+  /* ---------- Tema ---------- */
+  const stored = localStorage.getItem("caoszero-theme");
+  if (stored === "light" || stored === "dark") {
+    root.dataset.theme = stored;
+  }
 
-const getFileCategory = (fileName) => {
-  const lowerName = fileName.toLowerCase();
+  if (themeButton) {
+    themeButton.addEventListener("click", function () {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      localStorage.setItem("caoszero-theme", next);
+      themeButton.setAttribute(
+        "aria-label",
+        next === "dark" ? "Ativar tema claro" : "Ativar tema escuro"
+      );
+    });
+  }
 
-  for (const [category, extensions] of Object.entries(projectCategories)) {
-    const matched = extensions.some((extension) => lowerName.endsWith(extension.toLowerCase()));
-    if (matched) {
-      return category;
+  /* ---------- Menu mobile ---------- */
+  function closeMenu() {
+    if (!nav || !navToggle) return;
+    nav.classList.remove("is-open");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Abrir menu");
+  }
+
+  if (navToggle && nav) {
+    navToggle.addEventListener("click", function () {
+      const open = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    });
+
+    nav.addEventListener("click", function (event) {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeMenu();
+    });
+  }
+
+  /* ---------- Topbar ao rolar ---------- */
+  function onScroll() {
+    if (!topbar) return;
+    topbar.classList.toggle("is-scrolled", window.scrollY > 8);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Copiar comandos ---------- */
+  function textOf(targetId) {
+    const target = document.getElementById(targetId);
+    return target ? target.innerText.trim() : "";
+  }
+
+  async function copyText(text, button) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        document.body.removeChild(area);
+      }
+
+      const original = button.textContent;
+      button.textContent = "copiado!";
+      button.classList.add("is-copied");
+      window.setTimeout(function () {
+        button.textContent = original;
+        button.classList.remove("is-copied");
+      }, 1600);
+    } catch (error) {
+      button.textContent = "falhou";
+      window.setTimeout(function () {
+        button.textContent = "copiar";
+      }, 1600);
     }
   }
 
-  return 'Outros';
-};
-
-const renderFolderList = (items) => {
-  folderList.innerHTML = '';
-
-  if (!items.length) {
-    const emptyItem = document.createElement('div');
-    emptyItem.className = 'folder-item';
-    emptyItem.innerHTML = '<span class="folder-name">Nenhuma pasta</span><span class="folder-count">0</span>';
-    folderList.appendChild(emptyItem);
-    return;
-  }
-
-  items.forEach((item) => {
-    const folderItem = document.createElement('div');
-    folderItem.className = 'folder-item';
-
-    const folderName = document.createElement('span');
-    folderName.className = 'folder-name';
-    folderName.textContent = item.name;
-
-    const folderCount = document.createElement('span');
-    folderCount.className = 'folder-count';
-    folderCount.textContent = item.count.toLocaleString('pt-BR');
-
-    folderItem.append(folderName, folderCount);
-    folderList.appendChild(folderItem);
+  document.querySelectorAll("[data-copy-target]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const targetId = button.getAttribute("data-copy-target");
+      copyText(textOf(targetId), button);
+    });
   });
-};
 
-const updateStats = (stats) => {
-  const totalFiles = stats.reduce((sum, item) => sum + item.count, 0);
-  const totalCategories = stats.filter((item) => item.count > 0).length;
+  /* ---------- Reveal on scroll ---------- */
+  const revealItems = document.querySelectorAll(".reveal");
 
-  if (totalFiles === 0) {
-    statFiles.textContent = '0';
-    statTime.textContent = '00s';
-    statCategories.textContent = '0';
-    renderFolderList([]);
-    return;
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    revealItems.forEach(function (item) {
+      observer.observe(item);
+    });
+  } else {
+    revealItems.forEach(function (item) {
+      item.classList.add("is-visible");
+    });
   }
 
-  const averageSeconds = Math.max(1, Math.round(totalFiles / 28));
+  /* ---------- Navegação ativa ---------- */
+  const sections = Array.from(document.querySelectorAll("main section[id]"));
+  const navLinks = Array.from(document.querySelectorAll('.nav a[href^="#"]'));
 
-  statFiles.textContent = totalFiles.toLocaleString('pt-BR');
-  statTime.textContent = formatSeconds(averageSeconds);
-  statCategories.textContent = String(totalCategories);
+  if ("IntersectionObserver" in window && sections.length && navLinks.length) {
+    const active = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute("id");
+          navLinks.forEach(function (link) {
+            link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
+          });
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
 
-  const orderedStats = Object.entries(projectCategories).map(([name]) => ({
-    name,
-    count: stats.find((item) => item.name === name)?.count ?? 0,
-  }));
-
-  renderFolderList(orderedStats.filter((item) => item.count > 0));
-};
-
-const analyzeFolderEntries = (files) => {
-  const categoryCounts = Object.keys(projectCategories).map((name) => ({ name, count: 0 }));
-
-  files.forEach((file) => {
-    if (!file || typeof file.name !== 'string') {
-      return;
-    }
-
-    const categoryName = getFileCategory(file.name);
-    const categoryFound = categoryCounts.find((item) => item.name === categoryName);
-
-    if (categoryFound) {
-      categoryFound.count += 1;
-    }
-  });
-
-  updateStats(categoryCounts);
-};
-
-const organizeDirectoryHandle = async (directoryHandle) => {
-  const fileEntries = [];
-
-  for await (const [name, handle] of directoryHandle.entries()) {
-    if (handle.kind === 'file') {
-      fileEntries.push({ name, handle });
-    }
+    sections.forEach(function (section) {
+      active.observe(section);
+    });
   }
 
-  const categoryCounts = Object.keys(projectCategories).map((name) => ({ name, count: 0 }));
-
-  for (const entry of fileEntries) {
-    const categoryName = getFileCategory(entry.name);
-    const categoryFound = categoryCounts.find((item) => item.name === categoryName);
-
-    if (!categoryFound) {
-      continue;
-    }
-
-    const categoryFolder = await directoryHandle.getDirectoryHandle(categoryName, { create: true });
-    const destinationFile = await categoryFolder.getFileHandle(entry.name, { create: true });
-    const fileData = await entry.handle.getFile();
-    const writable = await destinationFile.createWritable();
-    await writable.write(await fileData.arrayBuffer());
-    await writable.close();
-    await directoryHandle.removeEntry(entry.name);
-    categoryFound.count += 1;
-  }
-
-  updateStats(categoryCounts);
-};
-
-const handleDirectorySelection = async () => {
-  if (!('showDirectoryPicker' in window)) {
-    alert('Seu navegador não suporta a seleção direta de pastas. Use o Chrome/Edge mais recente.');
-    return;
-  }
-
-  try {
-    const directoryHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
-    await organizeDirectoryHandle(directoryHandle);
-  } catch (error) {
-    console.error('Erro ao acessar a pasta:', error);
-  }
-};
-
-const applyTheme = (theme) => {
-  const resolvedTheme = theme === 'light' ? 'light' : 'dark';
-  body.setAttribute('data-theme', resolvedTheme);
-  localStorage.setItem('theme', resolvedTheme);
-};
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-  applyTheme(savedTheme);
-} else {
-  applyTheme('dark');
-}
-
-toggleButton.addEventListener('click', () => {
-  const currentTheme = body.getAttribute('data-theme');
-  const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  applyTheme(nextTheme);
-});
-
-addFolderButton.addEventListener('click', handleDirectorySelection);
-
-const defaultStats = Object.entries(projectCategories).map(([name]) => ({ name, count: 0 }));
-updateStats(defaultStats);
+  /* ---------- Ano do rodapé ---------- */
+  const year = document.getElementById("ano");
+  if (year) year.textContent = String(new Date().getFullYear());
+})();

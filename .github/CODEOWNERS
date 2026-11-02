@@ -1,0 +1,10 @@
+# Responsáveis por revisão automática.
+# Ajuste os times conforme a organização do repositório.
+
+* @julianasaunders @jaquellinef
+
+/src/ @julianasaunders @jaquellinef
+/tests/ @jaquellinef @julianasaunders
+/docs/ @julianasaunders
+/.github/ @julianasaunders
+/scripts/ @jaquellinef

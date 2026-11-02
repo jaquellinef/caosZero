@@ -1,0 +1,84 @@
+name: Relatar um problema
+description: Informe um comportamento inesperado do CaosZero.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar a melhorar o CaosZero. Preencha as informações
+        abaixo para que o problema possa ser reproduzido.
+
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Descrição
+      description: O que aconteceu?
+      placeholder: Descreva o comportamento observado.
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Comportamento esperado
+      description: O que você esperava que acontecesse?
+    validations:
+      required: true
+
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      description: Liste os comandos e ações na ordem.
+      placeholder: |
+        1. python caoszero.py demo
+        2. python caoszero.py organize sandbox_teste --apply
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do CaosZero
+      placeholder: "2.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema operacional
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Outro
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: Versão do Python
+      placeholder: "3.12.10"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs ou saída
+      description: Cole a saída do terminal ou o trecho relevante do log.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: seguranca
+    attributes:
+      label: Segurança
+      options:
+        - label: O problema envolve perda ou sobrescrita de arquivos.
+          required: false
