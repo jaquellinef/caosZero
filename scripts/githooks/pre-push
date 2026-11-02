@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Hook local executado antes de cada push: suíte completa de testes.
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+PYTHON="${CAOSZERO_PYTHON:-python3}"
+if ! command -v "$PYTHON" >/dev/null 2>&1; then
+    PYTHON="python"
+fi
+
+echo "[pre-push] executando testes..."
+cd "$ROOT_DIR"
+"$PYTHON" -m unittest discover -s tests
+echo "[pre-push] ok."
