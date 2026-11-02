@@ -114,8 +114,14 @@ class IntegrationTests(unittest.TestCase):
         destinations = {operation.source.name: operation.destination for operation in plan.operations}
 
         self.assertIn("Arquivo", destinations["antigo.pdf"].parts)
-        self.assertIn(self.sandbox / "Documentos", destinations["recente.pdf"].parents)
-        self.assertIn(self.sandbox / "Imagens", destinations["profundo.png"].parents)
+        self.assertEqual(
+            destinations["recente.pdf"].parent.resolve(),
+            (self.sandbox / "Documentos").resolve(),
+        )
+        self.assertEqual(
+            destinations["profundo.png"].parent.resolve(),
+            (self.sandbox / "Imagens").resolve(),
+        )
 
     def test_filtro_por_idade_e_tamanho(self):
         make_file(self.sandbox, "velho_grande.bin", content=b"x" * 4096, days_old=60)
