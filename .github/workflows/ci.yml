@@ -28,13 +28,37 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      # Branches de documentação e de fundação não contêm todo o código.
+      # Em vez de falhar, o workflow detecta o que existe e executa apenas as
+      # etapas aplicáveis. A validação completa acontece quando o pacote e a
+      # CLI estão presentes (a partir da branch da CLI em diante).
+      - name: Detectar estrutura do projeto
+        id: estrutura
+        shell: bash
+        run: |
+          if [ -d src ] && [ -d tests ]; then
+            echo "tem_codigo=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tem_codigo=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -f src/caoszero/cli.py ]; then
+            echo "tem_cli=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tem_cli=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "código: $([ -d src ] && [ -d tests ] && echo sim || echo não)"
+          echo "CLI: $([ -f src/caoszero/cli.py ] && echo sim || echo não)"
+
       - name: Compilar módulos
+        if: steps.estrutura.outputs.tem_codigo == 'true'
         run: python -m compileall -q src tests
 
       - name: Executar testes
+        if: steps.estrutura.outputs.tem_codigo == 'true'
         run: python -m unittest discover -s tests -v
 
       - name: Smoke test da CLI
+        if: steps.estrutura.outputs.tem_cli == 'true'
         shell: bash
         run: |
           python caoszero.py demo sandbox_ci
@@ -44,6 +68,7 @@ jobs:
           test -f relatorio-ci.md
 
       - name: Guardar relatórios
+        if: steps.estrutura.outputs.tem_cli == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: relatorios-${{ matrix.os }}-py${{ matrix.python-version }}
