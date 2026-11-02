@@ -1,4 +1,50 @@
+# Byte-compiled / cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.pyo
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Build e distribuição
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Configuração local e segredos
+.env
+.env.*
+!.env.example
+config/caoszero.local.json
+
+# Estado local do CaosZero
 sandbox_teste/
+sandbox/
+reports/
+relatorios/
 *.log
+caoszero.log*
+.state/
+state/
+
+# Ferramentas e editores
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Sistema
+desktop.ini

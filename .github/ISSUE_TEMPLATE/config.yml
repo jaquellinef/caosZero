@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Dúvidas e discussões
+    url: https://github.com/julianasaunders/caosZero/discussions
+    about: Use as discussões para perguntas abertas.
+  - name: Documentação
+    url: https://github.com/julianasaunders/caosZero/wiki
+    about: Consulte a wiki antes de abrir uma issue.
+  - name: Segurança
+    url: https://github.com/julianasaunders/caosZero/security/policy
+    about: Não relate vulnerabilidades em issues públicas. Leia a política de segurança.

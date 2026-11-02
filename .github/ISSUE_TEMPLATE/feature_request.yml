@@ -1,0 +1,59 @@
+name: Sugerir uma funcionalidade
+description: Proponha uma melhoria para o CaosZero.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de sugerir, verifique se já existe uma issue semelhante.
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: Problema
+      description: Qual dificuldade a funcionalidade resolve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Proposta
+      description: Como você imagina a solução?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas consideradas
+      description: Outras abordagens que você avaliou.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Organização de arquivos
+        - Renomeação
+        - Arquivamento
+        - Journal e undo
+        - Relatórios
+        - Diagnóstico do sistema
+        - CLI
+        - Automação
+        - Documentação
+        - Outra
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribuicao
+    attributes:
+      label: Contribuição
+      options:
+        - label: Posso abrir um pull request para implementar.
+          required: false

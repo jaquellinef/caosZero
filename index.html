@@ -1,123 +1,607 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CaosZero</title>
+    <title>CaosZero 2.0 — automatizador de tarefas com arquivos</title>
     <meta
       name="description"
-      content="Interface minimalista, responsiva e com tema claro e escuro para o projeto CaosZero."
+      content="CaosZero 2.0: CLI em Python que organiza arquivos por categoria, renomeia em massa, arquiva antigos, gera relatórios e desfaz a última execução. Projeto de Sistemas Operacionais."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236c5ce7'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='34' font-weight='700' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
   </head>
-  <body data-theme="dark">
-    <div class="page-shell">
-      <header class="topbar">
-        <div class="brand" aria-label="Logo da marca">
-          <span class="brand-mark">C</span>
-          <span>CaosZero</span>
-        </div>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
-        <nav class="nav" aria-label="Navegação principal">
-          <a href="#sobre">Sobre</a>
+    <header class="topbar" id="topo">
+      <div class="container topbar-inner">
+        <a class="brand" href="#topo" aria-label="CaosZero — início">
+          <span class="brand-mark" aria-hidden="true">C0</span>
+          <span class="brand-name">Caos<span>Zero</span></span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+          aria-label="Abrir menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav" id="menu-principal" aria-label="Navegação principal">
+          <a href="#problema">Problema</a>
           <a href="#funcionalidades">Funcionalidades</a>
-          <a href="#impacto">Impacto</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#conceitos">Conceitos de SO</a>
+          <a href="#comandos">Comandos</a>
+          <a class="nav-cta" href="https://github.com/julianasaunders/caosZero" target="_blank" rel="noopener">
+            GitHub
+          </a>
         </nav>
 
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Alternar tema">
-          <span class="toggle-track">
-            <span class="toggle-icon toggle-icon-sun"><ion-icon name="sunny"></ion-icon></span>
-            <span class="toggle-icon toggle-icon-moon"><ion-icon name="moon"></ion-icon></span>
-            <span class="toggle-thumb"></span>
-          </span>
+        <button class="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar tema">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-sun">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-moon">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+          </svg>
         </button>
-      </header>
+      </div>
+    </header>
 
-      <main class="main-content">
-        <section class="hero" id="sobre">
+    <main id="conteudo">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="container hero-grid">
           <div class="hero-copy">
+            <p class="eyebrow">
+              <span class="dot" aria-hidden="true"></span>
+              Projeto integrador · Sistemas Operacionais · Tema 4.5
+            </p>
             <h1>
-              Organize sua pasta com
-              <span class="gradient-text">clareza</span>
-              e controle.
+              Do caos ao zero.<br />
+              <span class="gradient">Arquivos organizados,</span><br />
+              com segurança e reversão.
             </h1>
-            <p>
-              O <strong>CaosZero</strong> transforma diretórios desorganizados em espaços
-              produtivos, separando arquivos por categoria com rapidez e precisão.
+            <p class="lead">
+              O <strong>CaosZero 2.0</strong> é um automatizador de tarefas com
+              arquivos. Ele planeja antes de agir, registra cada operação em um
+              journal e desfaz tudo com um único comando.
             </p>
 
-            <div class="actions">
-              <button id="add-folder-button" class="primary-button" type="button">Adicionar pasta</button>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#comandos">
+                Ver comandos
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/julianasaunders/caosZero" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg>
+                Repositório
+              </a>
             </div>
 
-            <ul class="feature-pills" aria-label="Principais recursos">
-              <li>Classificação por extensão</li>
-              <li>Organização automática</li>
+            <ul class="hero-badges" aria-label="Destaques do projeto">
+              <li>Python 3.10+</li>
+              <li>Sem dependências</li>
+              <li>Windows · Linux · macOS</li>
             </ul>
           </div>
 
-          <div class="hero-visual" aria-label="Painel visual do projeto">
-            <div class="panel glass-panel">
-              <div class="stats-grid">
-                <article class="mini-card accent-a">
-                  <span class="label">Arquivos</span>
-                  <strong id="stat-files">0</strong>
-                  <small>organizados</small>
-                </article>
-                <article class="mini-card accent-b">
-                  <span class="label">Tempo</span>
-                  <strong id="stat-time">00s</strong>
-                  <small>média</small>
-                </article>
-                <article class="mini-card accent-c">
-                  <span class="label">Categorias</span>
-                  <strong id="stat-categories">0</strong>
-                  <small>grupos</small>
-                </article>
-              </div>
-
-              <div class="folder-list" aria-label="Lista de categorias"></div>
+          <div class="terminal" aria-label="Exemplo de uso do CaosZero">
+            <div class="terminal-bar">
+              <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="terminal-title">caoszero — terminal</span>
+              <button class="terminal-copy" type="button" data-copy-target="terminal-code" aria-label="Copiar comandos">
+                copiar
+              </button>
             </div>
+            <pre class="terminal-body" id="terminal-code"><code><span class="c-dim">$</span> <span class="c-cmd">python caoszero.py demo</span>
+Ambiente de demonstração criado em sandbox_teste
+
+<span class="c-dim">$</span> <span class="c-cmd">python caoszero.py organize sandbox_teste</span>
+Alvo: sandbox_teste
+Arquivos analisados: 16
+Operações planejadas: 13 (1.2 KB)
+<span class="c-ok">[MOVER   ]</span> backup_projeto.zip <span class="c-dim">-&gt;</span> Compactados/…
+<span class="c-ok">[MOVER   ]</span> foto_ferias.jpg   <span class="c-dim">-&gt;</span> Imagens/…
+<span class="c-warn">[AVISO   ]</span> simulação: nenhum arquivo foi alterado
+
+<span class="c-dim">$</span> <span class="c-cmd">python caoszero.py organize sandbox_teste --apply --report</span>
+<span class="c-ok">✓</span> 13 operações concluídas · relatório gerado
+
+<span class="c-dim">$</span> <span class="c-cmd">python caoszero.py undo --latest</span>
+<span class="c-ok">✓</span> 13 arquivos restaurados</code></pre>
           </div>
-        </section>
+        </div>
 
-        <section class="info-grid" id="funcionalidades">
-          <article class="info-card">
-            <h2>Fluxo simples</h2>
-            <p>Uma rotina prática para perceber, classificar e mover arquivos com poucos passos.</p>
-          </article>
+        <div class="container hero-stats">
+          <div class="stat">
+            <strong>77</strong>
+            <span>testes automatizados</span>
+          </div>
+          <div class="stat">
+            <strong>14</strong>
+            <span>issues e pull requests</span>
+          </div>
+          <div class="stat">
+            <strong>0</strong>
+            <span>dependências externas</span>
+          </div>
+          <div class="stat">
+            <strong>2</strong>
+            <span>sistemas no CI</span>
+          </div>
+        </div>
+      </section>
 
-          <article class="info-card">
-            <h2>Visual claro</h2>
-            <p>Interface pensada para reduzir ruído visual e priorizar leitura e ação imediata.</p>
-          </article>
+      <!-- PROBLEMA -->
+      <section class="section" id="problema">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">O problema</p>
+            <h2>Pastas não se organizam sozinhas</h2>
+            <p class="section-lead">
+              Downloads, Documentos e Desktop acumulam arquivos de todos os tipos.
+              Organizar manualmente é lento, repetitivo e arriscado.
+            </p>
+          </header>
 
-          <article class="info-card">
-            <h2>Escala suave</h2>
-            <p>Uma experiência que continua bonita em desktop, tablet e celular sem perder consistência.</p>
-          </article>
-        </section>
+          <div class="cards three">
+            <article class="card reveal">
+              <span class="card-icon" aria-hidden="true">01</span>
+              <h3>Tempo perdido</h3>
+              <p>
+                Arrastar arquivo por arquivo para pastas de categoria consome
+                minutos todos os dias e nunca termina.
+              </p>
+            </article>
+            <article class="card reveal">
+              <span class="card-icon" aria-hidden="true">02</span>
+              <h3>Medo de errar</h3>
+              <p>
+                Uma movimentação errada pode esconder um documento importante.
+                Sem histórico, não há como voltar atrás.
+              </p>
+            </article>
+            <article class="card reveal">
+              <span class="card-icon" aria-hidden="true">03</span>
+              <h3>Automação frágil</h3>
+              <p>
+                Scripts que apagam ou sobrescrevem arquivos são perigosos.
+                Automação precisa ser previsível, auditável e reversível.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-        <section class="bottom-panel" id="impacto">
+      <!-- FUNCIONALIDADES -->
+      <section class="section section-alt" id="funcionalidades">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">A solução</p>
+            <h2>Tudo o que o CaosZero faz</h2>
+            <p class="section-lead">
+              Uma única CLI, sem dependências externas, com foco em segurança e
+              rastreabilidade.
+            </p>
+          </header>
+
+          <div class="cards">
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+              </div>
+              <h3>Organização por categoria</h3>
+              <p>
+                Move arquivos para Documentos, Imagens, Vídeos, Músicas e outras
+                categorias configuráveis por extensão.
+              </p>
+            </article>
+
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"></path><path d="M17 15l2 2 4-4"></path></svg>
+              </div>
+              <h3>Simulação por padrão</h3>
+              <p>
+                O comando <code>organize</code> apenas calcula o plano. Nada é
+                movido sem a opção explícita <code>--apply</code>.
+              </p>
+            </article>
+
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+              </div>
+              <h3>Renomeação em massa</h3>
+              <p>
+                Padrões com <code>{name}</code>, <code>{ext}</code>,
+                <code>{seq:03d}</code>, <code>{date}</code> e
+                <code>{categoria}</code>.
+              </p>
+            </article>
+
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"></path><path d="M8 13h8M8 16h5"></path></svg>
+              </div>
+              <h3>Arquivamento de antigos</h3>
+              <p>
+                Arquivos com mais de N dias vão para
+                <code>Arquivo/AAAA/</code>, sem perder o contexto temporal.
+              </p>
+            </article>
+
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"></path><path d="M12 7v5l3 2"></path><path d="M17 3l4 4-4 4"></path></svg>
+              </div>
+              <h3>Journal e undo</h3>
+              <p>
+                Cada operação é registrada antes e depois de executada. O
+                <code>undo</code> restaura a última execução com segurança.
+              </p>
+            </article>
+
+            <article class="card reveal">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"></path><path d="M8 15v-4M12 15V8M16 15v-6"></path></svg>
+              </div>
+              <h3>Relatórios e diagnóstico</h3>
+              <p>
+                Relatórios em Markdown, CSV e JSON, além de um diagnóstico
+                completo de CPU, memória, disco e permissões.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMO FUNCIONA -->
+      <section class="section" id="como-funciona">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">Arquitetura</p>
+            <h2>Planejar, confirmar, executar, relatar</h2>
+            <p class="section-lead">
+              O planejador nunca altera arquivos. O executor é a única camada com
+              permissão para mover. Essa separação torna a simulação confiável.
+            </p>
+          </header>
+
+          <ol class="steps">
+            <li class="step reveal">
+              <span class="step-number">1</span>
+              <div>
+                <h3>Planejar</h3>
+                <p>Lê metadados, aplica filtros e calcula destinos sem tocar no disco.</p>
+              </div>
+              <code>planner.py</code>
+            </li>
+            <li class="step reveal">
+              <span class="step-number">2</span>
+              <div>
+                <h3>Confirmar</h3>
+                <p>Mostra a prévia, avisos e pede confirmação antes de executar.</p>
+              </div>
+              <code>cli.py</code>
+            </li>
+            <li class="step reveal">
+              <span class="step-number">3</span>
+              <div>
+                <h3>Executar</h3>
+                <p>Move, renomeia ou arquiva e grava cada passo no journal.</p>
+              </div>
+              <code>executor.py</code>
+            </li>
+            <li class="step reveal">
+              <span class="step-number">4</span>
+              <div>
+                <h3>Relatar e desfazer</h3>
+                <p>Gera MD/CSV/JSON e permite restaurar a execução anterior.</p>
+              </div>
+              <code>reporter.py · journal.py</code>
+            </li>
+          </ol>
+
+          <div class="callout reveal">
+            <strong>Nenhum arquivo é sobrescrito.</strong>
+            Se o destino já existir, o CaosZero gera um nome único:
+            <code>foto.jpg</code> → <code>foto (1).jpg</code>.
+          </div>
+        </div>
+      </section>
+
+      <!-- CONCEITOS DE SO -->
+      <section class="section section-alt" id="conceitos">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">Sistemas Operacionais</p>
+            <h2>Teoria que roda de verdade</h2>
+            <p class="section-lead">
+              Cada comando demonstra um conceito da disciplina. O comando
+              <code>doctor</code> transforma o diagnóstico em algo visível.
+            </p>
+          </header>
+
+          <div class="concept-grid">
+            <article class="concept reveal">
+              <h3>Sistema de arquivos</h3>
+              <p>Varredura, categorias e movimentação com metadados.</p>
+              <span class="concept-tag">planner · executor</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Chamadas de sistema</h3>
+              <p><code>stat</code>, <code>mkdir</code>, <code>rename</code> e I/O de journal.</p>
+              <span class="concept-tag">journal · reporter</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Processos</h3>
+              <p>PID, PPID, threads, uptime e execução por agendador.</p>
+              <span class="concept-tag">system_info</span>
+            </article>
+            <article class="concept reveal">
+              <h3>CPU e cgroups</h3>
+              <p>Núcleos efetivos, load average e limites de contêiner.</p>
+              <span class="concept-tag">system_info</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Memória</h3>
+              <p>Memória total, disponível e limite de cgroup por plataforma.</p>
+              <span class="concept-tag">system_info</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Disco</h3>
+              <p>Espaço livre, uso percentual e checagem antes da execução.</p>
+              <span class="concept-tag">planner · doctor</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Permissões</h3>
+              <p>Modo octal, modo simbólico e teste de leitura/escrita.</p>
+              <span class="concept-tag">doctor</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Concorrência</h3>
+              <p>Colisões de nomes resolvidas sem sobrescrever arquivos.</p>
+              <span class="concept-tag">utils · executor</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Automação</h3>
+              <p>Cron e Agendador de Tarefas iniciando processos Python.</p>
+              <span class="concept-tag">scripts/</span>
+            </article>
+            <article class="concept reveal">
+              <h3>Tolerância a falhas</h3>
+              <p>Journaling, status por operação e undo reversível.</p>
+              <span class="concept-tag">journal · undo</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMANDOS -->
+      <section class="section" id="comandos">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">Mão na massa</p>
+            <h2>Comece em quatro comandos</h2>
+            <p class="section-lead">
+              Clone o repositório, crie um sandbox e veja o CaosZero em ação sem
+              risco.
+            </p>
+          </header>
+
+          <div class="code-grid">
+            <article class="code-card reveal">
+              <div class="code-head">
+                <h3>1. Criar sandbox</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-1">copiar</button>
+              </div>
+              <pre id="cmd-1"><code>python caoszero.py demo</code></pre>
+            </article>
+
+            <article class="code-card reveal">
+              <div class="code-head">
+                <h3>2. Simular</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-2">copiar</button>
+              </div>
+              <pre id="cmd-2"><code>python caoszero.py organize sandbox_teste</code></pre>
+            </article>
+
+            <article class="code-card reveal">
+              <div class="code-head">
+                <h3>3. Executar e relatar</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-3">copiar</button>
+              </div>
+              <pre id="cmd-3"><code>python caoszero.py organize sandbox_teste --apply --report</code></pre>
+            </article>
+
+            <article class="code-card reveal">
+              <div class="code-head">
+                <h3>4. Desfazer</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-4">copiar</button>
+              </div>
+              <pre id="cmd-4"><code>python caoszero.py undo --latest</code></pre>
+            </article>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table>
+              <caption>Comandos principais</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Comando</th>
+                  <th scope="col">O que faz</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>organize</code></td><td>Planeja ou executa a organização</td></tr>
+                <tr><td><code>undo</code></td><td>Desfaz uma execução registrada</td></tr>
+                <tr><td><code>doctor</code></td><td>Diagnóstico de recursos do SO</td></tr>
+                <tr><td><code>config</code></td><td>Mostra ou cria a configuração</td></tr>
+                <tr><td><code>demo</code></td><td>Cria uma pasta de demonstração</td></tr>
+                <tr><td><code>interactive</code></td><td>Abre o menu guiado</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUTOMAÇÃO -->
+      <section class="section section-alt" id="automacao">
+        <div class="container split">
+          <div class="reveal">
+            <p class="kicker">Automação</p>
+            <h2>Rode sozinho todos os dias</h2>
+            <p class="section-lead">
+              Scripts para Bash e PowerShell, com agendamento via <code>cron</code>
+              e Agendador de Tarefas. Nada é registrado sem confirmação explícita.
+            </p>
+            <ul class="check-list">
+              <li>Simulação por padrão nos scripts</li>
+              <li>Caminhos absolutos para Python e projeto</li>
+              <li>Relatório automático em cada execução</li>
+              <li>Diagnóstico opcional com <code>--doctor</code></li>
+            </ul>
+            <a class="btn btn-ghost" href="https://github.com/julianasaunders/caosZero/tree/main/scripts" target="_blank" rel="noopener">
+              Ver scripts
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
+
+          <div class="code-stack reveal">
+            <article class="code-card">
+              <div class="code-head">
+                <h3>Linux / macOS</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-cron">copiar</button>
+              </div>
+              <pre id="cmd-cron"><code>./scripts/automacao.sh --target ~/Downloads --apply --report
+./scripts/agendar_cron.sh --target ~/Downloads --time 09:00 --apply</code></pre>
+            </article>
+
+            <article class="code-card">
+              <div class="code-head">
+                <h3>Windows</h3>
+                <button class="copy-btn" type="button" data-copy-target="cmd-win">copiar</button>
+              </div>
+              <pre id="cmd-win"><code>.\scripts\automacao.ps1 -Target "$HOME\Downloads" -Apply -Report
+.\scripts\agendar_tarefa.ps1 -Target "$HOME\Downloads" -Time "09:00" -Register</code></pre>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUALIDADE -->
+      <section class="section" id="qualidade">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">Qualidade</p>
+            <h2>Confiável por construção</h2>
+            <p class="section-lead">
+              Testes em dois sistemas operacionais, integração contínua e hooks
+              locais para impedir regressões.
+            </p>
+          </header>
+
+          <div class="quality-grid">
+            <article class="quality reveal">
+              <strong>77</strong>
+              <span>testes unitários, de CLI e de integração</span>
+            </article>
+            <article class="quality reveal">
+              <strong>4</strong>
+              <span>combinações no CI: Ubuntu/Windows × Python 3.10/3.12</span>
+            </article>
+            <article class="quality reveal">
+              <strong>100%</strong>
+              <span>biblioteca padrão do Python</span>
+            </article>
+            <article class="quality reveal">
+              <strong>14</strong>
+              <span>issues rastreadas com branches e pull requests</span>
+            </article>
+          </div>
+
+          <div class="terminal terminal-wide reveal">
+            <div class="terminal-bar">
+              <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="terminal-title">testes</span>
+              <button class="terminal-copy" type="button" data-copy-target="test-code" aria-label="Copiar comando de testes">copiar</button>
+            </div>
+            <pre class="terminal-body" id="test-code"><code><span class="c-dim">$</span> <span class="c-cmd">python -m unittest discover -s tests -v</span>
+.............................................................................
+----------------------------------------------------------------------
+Ran 77 tests in 0.98s
+
+<span class="c-ok">OK</span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- EQUIPE -->
+      <section class="section section-alt" id="equipe">
+        <div class="container">
+          <header class="section-head reveal">
+            <p class="kicker">Equipe</p>
+            <h2>Duas pessoas, um projeto organizado</h2>
+            <p class="section-lead">
+              Tarefas distribuídas em issues, revisão cruzada em cada pull
+              request e uma release conjunta.
+            </p>
+          </header>
+
+          <div class="team">
+            <article class="person reveal">
+              <div class="avatar" aria-hidden="true">JS</div>
+              <h3>Juliana Saunders</h3>
+              <p>Planejamento, planejador, relatórios, CLI, CI, documentação e site.</p>
+              <a href="https://github.com/julianasaunders" target="_blank" rel="noopener">@julianasaunders</a>
+            </article>
+
+            <article class="person reveal">
+              <div class="avatar" aria-hidden="true">JF</div>
+              <h3>Jaquelline Feitoza</h3>
+              <p>Fundação, executor, undo, diagnóstico do SO, automação, testes e wiki.</p>
+              <a href="https://github.com/jaquellinef" target="_blank" rel="noopener">@jaquellinef</a>
+            </article>
+          </div>
+
+          <div class="links-row reveal">
+            <a class="btn btn-primary" href="https://github.com/julianasaunders/caosZero" target="_blank" rel="noopener">Repositório</a>
+            <a class="btn btn-ghost" href="https://github.com/julianasaunders/caosZero/wiki" target="_blank" rel="noopener">Wiki</a>
+            <a class="btn btn-ghost" href="https://github.com/julianasaunders/caosZero/issues" target="_blank" rel="noopener">Issues</a>
+            <a class="btn btn-ghost" href="https://github.com/julianasaunders/caosZero/releases" target="_blank" rel="noopener">Release v2.0.0</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true">C0</span>
           <div>
-            <h2>Mais ordem, menos distração.</h2>
+            <strong>CaosZero 2.0</strong>
+            <p>Automatizador de tarefas com arquivos.</p>
           </div>
-          <p>
-            O objetivo é tornar a rotina de organização mais eficiente, com foco em
-            produtividade, clareza visual e uma experiência agradável em qualquer contexto.
-          </p>
-        </section>
-      </main>
-    </div>
-
-    <script src="script.js"></script>
+        </div>
+        <p class="footer-meta">
+          Projeto integrador de Sistemas Operacionais · Tema 4.5 ·
+          <span id="ano">2026</span> · Licença MIT
+        </p>
+        <a href="#topo" class="back-top">Voltar ao topo ↑</a>
+      </div>
+    </footer>
   </body>
 </html>
