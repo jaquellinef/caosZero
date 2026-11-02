@@ -1,0 +1,20 @@
+{
+  "categories": {
+    "Documentos": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".md", ".epub"],
+    "Planilhas": [".xls", ".xlsx", ".ods", ".csv", ".tsv"],
+    "Apresentacoes": [".ppt", ".pptx", ".odp", ".key"],
+    "Imagens": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp", ".heic"],
+    "Videos": [".mp4", ".mkv", ".avi", ".mov", ".wmv", ".webm"],
+    "Musicas": [".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a"],
+    "Compactados": [".zip", ".rar", ".7z", ".tar.gz", ".tar", ".tgz", ".gz"],
+    "Instaladores": [".exe", ".msi", ".deb", ".rpm", ".appimage", ".apk", ".dmg"],
+    "Codigo": [".py", ".js", ".ts", ".html", ".css", ".java", ".c", ".cpp", ".go", ".rs", ".sh", ".ps1", ".json", ".yml", ".yaml", ".sql"],
+    "Outros": []
+  },
+  "ignore_names": [".DS_Store", "Thumbs.db", "desktop.ini", "caoszero.log"],
+  "ignore_globs": ["*.tmp", "*.temp", "*.part", "*.partial", "*.crdownload", "~$*", ".~lock.*"],
+  "ignore_dirs": [".git", ".hg", ".svn", "__pycache__", "node_modules", ".venv", "venv", "env"],
+  "archive_dir": "Arquivo",
+  "report_dir": "reports",
+  "min_free_mb": 50
+}
